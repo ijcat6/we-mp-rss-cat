@@ -38,10 +38,7 @@ docker run -d  --name we-mp-rss  -p 8001:8001   docker.1ms.run/rachelos/we-mp-rs
 - 支持授权过期提醒
 
 
-# ❤️ 赞助
-如果觉得 We-MP-RSS 对你有帮助，欢迎给我来一杯啤酒！<br/>
-<img src="docs/赞赏码.jpg" width=180/>
-[Paypal](https://www.paypal.com/ncp/payment/PUA72WYLAV5KW)
+
 
 ## 界面截图
 - 登录界面  
