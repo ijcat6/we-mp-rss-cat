@@ -1,5 +1,6 @@
 
 from core.config import cfg
+from driver.success import Success
 import time
 def sys_notice(text:str="",title:str=""):
     from core.notice import notice
@@ -16,7 +17,8 @@ def sys_notice(text:str="",title:str=""):
 
 from driver.wx import WX_API
 def send_wx_code(title:str="",url:str=""):
-    WX_API.GetCode(Notice=CallBackNotice)
+    if cfg.get("server.send_code",False):
+        WX_API.GetCode(Notice=CallBackNotice,CallBack=Success)
     pass
 def CallBackNotice():
         url=WX_API.QRcode()['code']
@@ -27,7 +29,9 @@ def CallBackNotice():
         """
         rss_domain=cfg.get("rss.base_url","")
         url=rss_domain+str(url)
-        text=f"- 发送时间： {time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}"
-        text+=f"![二维码]({url})"
-        text+=f"\n- 请使用微信扫描二维码进行授权"
-        sys_notice(text, "WeRss授权过期")
+        text=f"- 服务名：{cfg.get('server.name','')}\n"
+        text+=f"- 发送时间： {time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}"
+        if WX_API.GetHasCode():
+            text+=f"![二维码]({url})"
+            text+=f"\n- 请使用微信扫描二维码进行授权"
+        sys_notice(text, cfg.get("server.code_title","WeRss授权过期,扫码授权"))
